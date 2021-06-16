@@ -1,7 +1,5 @@
 import time
 
-from torch import Assert
-
 
 class Timer(object):
     """A simple timer."""
@@ -16,7 +14,8 @@ class Timer(object):
         self.total_time = 0.    # Not affected by self.reset()
         self.total_calls = 0    # Not affected by self.reset()
         self.sync = None
-        self.logger = logger.warning if logger is not None else lambda x: print(f"Warning: {x}")
+        self.logger = logger.warning if logger is not None \
+            else lambda x: print(f"Warning: {x}")
 
     def tic(self):
         # using time.time instead of time.clock because time time.clock
@@ -54,7 +53,8 @@ class Timer(object):
             try:
                 import torch
             except ImportError:
-                self.logger("Torch is not installed. CUDA synchronization is disabled.")
+                self.logger("Torch is not installed. CUDA synchronization is"
+                            " disabled.")
                 self.sync = None
             else:
                 try:
