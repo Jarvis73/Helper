@@ -35,19 +35,6 @@ class Logger(object):
 logger = Logger()
 
 
-class MyFormatter(logging.Formatter):
-    converter = datetime.fromtimestamp
-
-    def formatTime(self, record, datefmt=None):
-        ct = self.converter(record.created)
-        if datefmt:
-            s = ct.strftime(datefmt)
-        else:
-            s = ct.strftime("%Y-%m-%d %H:%M:%S")
-            # s = "%s.%03d" % (t, record.msecs)
-        return s
-
-
 def create_logger(file_=False, console=True,
                   with_time=False, file_level=1, console_level=2,
                   propagate=False, clear_exist_handlers=False, name=None):
@@ -117,7 +104,8 @@ def create_logger(file_=False, console=True,
     logger_.setLevel(levels[1])
     logger_.propagate = propagate
 
-    formatter = MyFormatter("%(asctime)s: %(levelname).1s %(message)s")
+    formatter = MyFormatter("%(asctime)s %(levelname).1s %(message)s",
+                            datefmt="%Y-%m-%d %H:%M:%S")
 
     if file_:
         # Create file handler
