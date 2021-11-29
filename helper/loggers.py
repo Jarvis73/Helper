@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 from time import time, strftime, localtime
+from datetime import datetime
 
 levels = [logging.NOTSET,
           logging.DEBUG,
@@ -32,6 +33,19 @@ class Logger(object):
 
 # We create a global logger. This statement is only executed once.
 logger = Logger()
+
+
+class MyFormatter(logging.Formatter):
+    converter = datetime.fromtimestamp
+
+    def formatTime(self, record, datefmt=None):
+        ct = self.converter(record.created)
+        if datefmt:
+            s = ct.strftime(datefmt)
+        else:
+            s = ct.strftime("%Y-%m-%d %H:%M:%S")
+            # s = "%s.%03d" % (t, record.msecs)
+        return s
 
 
 def create_logger(file_=False, console=True,
