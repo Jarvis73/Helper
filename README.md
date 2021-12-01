@@ -11,8 +11,15 @@ Helper functions for machine learning models
         # run your code
         pass
 
-    print(f"Time: {timer.diff}s")
+    print(f"Elapse: {timer.diff}s")
     timer.reset()
+
+    for i in range(5):
+        with timer.start():
+            # run your code
+            pass
+    print(f"Second per call: {timer.spc}s/iter")
+    print(f"Call per second: {timer.cps}iter/s")
     ```
 * loggers
     * get_global_logger
